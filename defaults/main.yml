@@ -22,7 +22,7 @@ gitea__name: gitea # App name
 gitea__repo_dir: /home/{{ gitea__user }}/gitea-repositories # Directory where Gitea stores repos.
 gitea__install_lock: 'true' # Lock the installation page.
 gitea__domain_name: git.example.com # FQDN of page to serve Gitea
-gitea__ssh_port: 8822 # SSH port for Gitea to use (set sshd configs appropriately)
+gitea__ssh_port: 4554 # SSH port for Gitea to use (set sshd configs appropriately)
 gitea__disable_registration: 'true' # Disable registration (Leave false until after initial install and admin creation).
 gitea__http_port: 3000
 gitea__disable_ssh: 'false'
