@@ -1,0 +1,23 @@
+---
+- name: Reload daemon
+  systemd:
+    daemon_reload: true
+  become: yes
+
+- name: Restart gitea
+  systemd:
+    name: gitea
+    state: restarted
+  become: yes
+
+- name: Restart postgres
+  systemd:
+    name: postgresql
+    state: restarted
+  become: yes
+
+- name: Restart fail2ban
+  systemd:
+    name: fail2ban
+    state: restarted
+  become: yes

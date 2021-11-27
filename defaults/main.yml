@@ -1,0 +1,45 @@
+---
+gitea__version: '1.15.6'
+gitea__checksum: '1b7473b5993e07b33fec58edbc1a90f15f040759ca4647e97317c33d5dfe58be'
+
+gitea__user: gitea
+gitea__group: gitea
+
+# If no database installed, default to postgresql here. Otherwise set to false.
+gitea__install_and_prepare_postgres: true
+postgresql__version: '12'
+
+gitea__internal_token: 'qwerwertertyrtyu' # Random 48 character string (or acquire after initial installation).
+gitea__secret_key: 'qwerwertertyrtyu' # Random password string.
+gitea__lfs_jwt_secret: 'qwerwertertyrtyu' # Random password string.
+
+gitea__postgres_username: gitea
+gitea__postgres_db_name: giteadb
+gitea__postgres_db_password: qwerwertertyrtyu # Default. Change and encrypt using ansible-vault.
+
+# Gitea Settings
+gitea__name: gitea # App name
+gitea__repo_dir: /home/{{ gitea__user }}/gitea-repositories # Directory where Gitea stores repos.
+gitea__install_lock: 'true' # Lock the installation page.
+gitea__domain_name: git.example.com # FQDN of page to serve Gitea
+gitea__ssh_port: 8822 # SSH port for Gitea to use (set sshd configs appropriately)
+gitea__disable_registration: 'true' # Disable registration (Leave false until after initial install and admin creation).
+gitea__http_port: 3000
+gitea__disable_ssh: 'false'
+gitea__email_confirm_registration: 'false'
+gitea__enable_notify_mail: 'true'
+gitea__enable_captcha: 'true'
+gitea__keep_email_private: 'true'
+gitea__allow_org_creation: 'true'
+gitea__no_reply_address: noreply.{{ gitea__domain_name }}
+
+gitea__log_path: /var/lib/gitea/log
+gitea__log_rotate_retention: '3' # Number of days to keep log files.
+
+gitea__dependent_directories:
+  - { path: /var/lib/gitea/custom, owner: root, group: root, mode: 755}
+  - { path: /var/lib/gitea/public, owner: root, group: root, mode: 755}
+  - { path: /var/lib/gitea/data, owner: "{{ gitea__user }}", group: "{{ gitea__group }}", mode: 750}
+  - { path: /var/lib/gitea/indexers, owner: "{{ gitea__user }}", group: "{{ gitea__group }}", mode: 750}
+  - { path: /var/lib/gitea/log, owner: "{{ gitea__user }}", group: "{{ gitea__group }}", mode: 750}
+  - { path: /etc/gitea, owner: root, group: "{{ gitea__group }}", mode: 770}

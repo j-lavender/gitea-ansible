@@ -1,0 +1,10 @@
+# Ansible-Managed
+
+{{ gitea__log_path }}/*.log {
+    su {{ gitea__user }} {{ gitea__group }}
+    daily
+    rotate {{ gitea__log_rotate_retention }}
+    missingok
+    compress
+    copytruncate
+}

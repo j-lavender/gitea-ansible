@@ -1,0 +1,65 @@
+APP_NAME = {{ gitea__name }}
+RUN_USER = {{ gitea__user }}
+RUN_MODE = prod
+
+[ui]
+DEFAULT_THEME  = gitea
+THEMES         = gitea,github-dark,earl-grey
+
+[security]
+INTERNAL_TOKEN = {{ gitea__internal_token }}
+INSTALL_LOCK   = {{ gitea__install_lock }}
+SECRET_KEY     = {{ gitea__secret_key }}
+
+[database]
+DB_TYPE  = postgres
+HOST     = 127.0.0.1:5432
+NAME     = {{ gitea__postgres_db_name }}
+USER     = {{ gitea__postgres_username }}
+PASSWD   = {{ gitea__postgres_db_password }}
+SSL_MODE = disable
+
+[repository]
+ROOT = {{ gitea__repo_dir }}
+
+[server]
+SSH_DOMAIN       = {{ gitea__domain_name }}
+DOMAIN           = {{ gitea__domain_name }}
+HTTP_PORT        = {{ gitea__http_port }}
+ROOT_URL         = https://{{ gitea__domain_name }}/
+DISABLE_SSH      = {{ gitea__disable_ssh }}
+SSH_PORT         = {{ gitea__ssh_port }}
+LFS_START_SERVER = true
+LFS_CONTENT_PATH = /var/lib/gitea/data/lfs
+LFS_JWT_SECRET   = {{ gitea__lfs_jwt_secret }}
+OFFLINE_MODE     = false
+
+[mailer]
+ENABLED = false
+
+[service]
+REGISTER_EMAIL_CONFIRM            = {{ gitea__email_confirm_registration }}
+ENABLE_NOTIFY_MAIL                = {{ gitea__enable_notify_mail }}
+DISABLE_REGISTRATION              = {{ gitea__disable_registration }}
+ENABLE_CAPTCHA                    = {{ gitea__enable_captcha }}
+REQUIRE_SIGNIN_VIEW               = false
+DEFAULT_KEEP_EMAIL_PRIVATE        = {{ gitea__keep_email_private }}
+DEFAULT_ALLOW_CREATE_ORGANIZATION = {{ gitea__allow_org_creation }}
+DEFAULT_ENABLE_TIMETRACKING       = true
+NO_REPLY_ADDRESS                  = {{ gitea__no_reply_address }}
+
+[picture]
+DISABLE_GRAVATAR        = false
+ENABLE_FEDERATED_AVATAR = true
+
+[openid]
+ENABLE_OPENID_SIGNIN = false
+ENABLE_OPENID_SIGNUP = false
+
+[session]
+PROVIDER = file
+
+[log]
+MODE      = file
+LEVEL     = Info
+ROOT_PATH = {{ gitea__log_path }}

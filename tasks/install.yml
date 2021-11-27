@@ -1,0 +1,58 @@
+---
+- include_tasks: postgres.yml
+  when: gitea__install_and_prepare_postgres == true
+
+- name: gitea | install | ensure package dependencies are installed
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - git
+    - gnupg2
+    - xz-utils
+    - fail2ban
+  become: yes
+
+- name: gitea | install | Ensure gitea group exists
+  group:
+    name: "{{ gitea__group }}"
+    state: present
+  become: yes
+
+- name: gitea | install | Add gitea user
+  user:
+    name: "{{ gitea__user }}"
+    group: "{{ gitea__group }}"
+    state: present
+    create_home: yes
+    shell: /bin/bash
+  become: yes
+
+- name: gitea | install | ensure gitea config directories exist before install
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+    state: directory
+  with_items: "{{ gitea__dependent_directories }}"
+  become: yes
+
+- name: gitea | install | retrieve checksum
+  get_url:
+    url: "https://dl.gitea.io/gitea/{{ gitea__version }}/gitea-{{ gitea__version }}-linux-amd64.sha256"
+    dest: "/tmp/"
+  become: yes
+
+- name: gitea | install | register checksum
+  shell: cat /tmp/gitea-1.15.6-linux-amd64.sha256
+  register: gitea__checksum
+
+- name: gitea | install | download gitea
+  get_url:
+    url: https://dl.gitea.io/gitea/{{ gitea__version }}/gitea-{{ gitea__version }}-linux-amd64
+    dest: "/usr/local/bin/gitea"
+    mode: +x
+    checksum: "sha256:{{ gitea__checksum }}"
+  become: yes

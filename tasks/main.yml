@@ -1,0 +1,10 @@
+---
+# - include_tasks: install.yml
+- include_tasks: configure.yml
+
+# - name: gitea | Ensure gitea is running and enabled on boot.
+#   systemd:
+#     name: gitea
+#     enabled: yes
+#     state: started
+#   become: yes

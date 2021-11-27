@@ -1,0 +1,79 @@
+---
+# - name: gitea | postgresql | install | ensure ansible postgres dependency is installed
+#   apt:
+#     name: "{{ item }}"
+#     state: present
+#     update_cache: yes
+#   loop:
+#    - python3-psycopg2
+#    - acl
+#   become: yes
+
+# - name: gitea | postgresql | install | add apt key
+#   apt_key:
+#     url: "https://www.postgresql.org/media/keys/ACCC4CF8.asc"
+#     state: present
+#   become: yes
+
+# - name: gitea | postgresql | install | add PG apt repo
+#   apt_repository:
+#     repo: "deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main"
+#     state: present
+#   become: yes
+
+# - name: gitea | postgresql | install | install postgresql
+#   apt:
+#     name: "postgresql-{{ postgresql__version }}"
+#     state: present
+#     update_cache: yes
+#   become: yes
+
+# - name: gitea | postgresql | set postgres authentication method before start.
+#   postgresql_set:
+#     name: password_encryption
+#     value: scram-sha-256
+#   become: yes
+#   become_user: postgres
+
+# - name: gitea | postgresql | ensure PG is running and enabled on boot.
+#   service:
+#     name: postgresql
+#     state: started
+#     enabled: yes
+#   become: yes
+
+# - name: gitea | postgresql | create gitea postgresql database
+#   postgresql_db:
+#     name: "{{ gitea__postgres_db_name }}"
+#     state: present
+#     encoding: UTF8
+#     lc_collate: en_US.UTF-8
+#     lc_ctype: en_US.UTF-8
+#     template: template0
+#   become: yes
+#   become_user: postgres
+
+# - name: gitea | postgresql | add gitea postgres user
+#   postgresql_user:
+#     name: "{{ gitea__postgres_username }}"
+#     password: "{{ gitea__postgres_db_password }}"
+#     db: "{{ gitea__postgres_db_name }}"
+#     state: present
+#     priv: "ALL"
+#     encrypted: yes
+#     expires: infinity
+#   become: yes
+#   become_user: postgres
+
+# - name: gitea | postgresql | add gitea user to pg_hba
+#   postgresql_pg_hba:
+#     dest: /etc/postgresql/12/main/pg_hba.conf
+#     contype: local
+#     users: "{{ gitea__postgres_username }}"
+#     databases: "{{ gitea__postgres_db_name }}"
+#     method: scram-sha-256
+#     state: present
+#     dest: ""
+#   become: yes
+#   notify:
+#     - Restart postgres
