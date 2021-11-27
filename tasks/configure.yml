@@ -1,41 +1,41 @@
 ---
-# - name: gitea | configure | daemonize gitea
-#   template:
-#     src: "etc/systemd/system/gitea.service.j2"
-#     dest: "/etc/systemd/system/gitea.service"
-#     owner: root
-#     group: root
-#     mode: 0644
-#   become: yes
-#   notify:
-#     - Reload daemon
+- name: gitea | configure | daemonize gitea
+  template:
+    src: "etc/systemd/system/gitea.service.j2"
+    dest: "/etc/systemd/system/gitea.service"
+    owner: root
+    group: root
+    mode: 0644
+  become: yes
+  notify:
+    - Reload daemon
 
-# - name: gitea | configure | write gitea app.ini
-#   template:
-#     src: "etc/gitea/app.ini.j2"
-#     dest: "/etc/gitea/app.ini"
-#     owner: root
-#     group: "{{ gitea__group }}"
-#     mode: 0770
-#   become: yes
-#   notify:
-#     - Restart gitea
+- name: gitea | configure | write gitea app.ini
+  template:
+    src: "etc/gitea/app.ini.j2"
+    dest: "/etc/gitea/app.ini"
+    owner: root
+    group: "{{ gitea__group }}"
+    mode: 0770
+  become: yes
+  notify:
+    - Restart gitea
 
-# - name: gitea | configure | write fail2ban filter config
-#   template:
-#     src: "etc/fail2ban/filter.d/gitea.conf.j2"
-#     dest: "/etc/fail2ban/filter.d/gitea.conf"
-#   become: yes
-#   notify:
-#    - Restart fail2ban
+- name: gitea | configure | write fail2ban filter config
+  template:
+    src: "etc/fail2ban/filter.d/gitea.conf.j2"
+    dest: "/etc/fail2ban/filter.d/gitea.conf"
+  become: yes
+  notify:
+   - Restart fail2ban
 
-# - name: gitea | configure | write fail2ban jail config
-#   template:
-#     src: "etc/fail2ban/jail.d/gitea.conf.j2"
-#     dest: "/etc/fail2ban/jail.d/gitea.conf"
-#   become: yes
-#   notify:
-#    - Restart fail2ban
+- name: gitea | configure | write fail2ban jail config
+  template:
+    src: "etc/fail2ban/jail.d/gitea.conf.j2"
+    dest: "/etc/fail2ban/jail.d/gitea.conf"
+  become: yes
+  notify:
+   - Restart fail2ban
 
 - name: gitea | configure | write Gitea logrotate config
   template:
