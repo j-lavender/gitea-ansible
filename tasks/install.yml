@@ -1,6 +1,6 @@
 ---
 - include_tasks: postgres.yml
-  when: gitea__install_and_prepare_postgres == true
+  when: gitea__install_and_prepare_postgres | bool
 
 - name: gitea | install | ensure package dependencies are installed
   apt:
